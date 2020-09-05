@@ -1,0 +1,3 @@
+export const HAS_SCOPE = 'KEYCLOAK:HAS_SCOPE'
+export const HAS_ROLE = 'KEYCLOAK:HAS_ROLE'
+export const PROTECTED = 'KEYCLOAK:PROTECTED'
