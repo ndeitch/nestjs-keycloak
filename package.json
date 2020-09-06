@@ -8,7 +8,7 @@
   },
   "license": "UNLICENSED",
   "author": "Natan Deitch",
-  "main": "dist/keycloak.module.js",
+  "main": "dist/index.js",
   "directories": {
     "dist": "dist"
   },
