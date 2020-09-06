@@ -11,13 +11,13 @@ export class KeycloakGuard extends AuthGuard('keycloak') {
   }
 
   getRequest(context: ExecutionContext): unknown {
-    const isHttp = context.getType() === 'http'
+    const isRest = context.getType() === 'http'
 
-    const request = isHttp
+    const request = isRest
       ? context.switchToHttp().getRequest()
       : GqlExecutionContext.create(context).getContext().req
 
-    request.isHttp = context.getType() === 'http'
+    request.isRest = isRest
     const handler = context.getHandler()
 
     const hasProtectedDecorator = this.reflector.get<boolean>(PROTECTED, handler)
@@ -32,7 +32,7 @@ export class KeycloakGuard extends AuthGuard('keycloak') {
     if (scopeDecorator) {
       request.protectionType = HAS_SCOPE
 
-      request.resource = isHttp
+      request.resource = isRest
         ? request.params[scopeDecorator]
         : GqlExecutionContext.create(context).getArgs()[scopeDecorator]
 
