@@ -1,26 +1,37 @@
-import { Controller, Get, Module, Post, Put } from '@nestjs/common'
+import { Controller, Get, Module, UseGuards } from '@nestjs/common'
 import { HasRole, HasScope, KeycloakModule, Protected } from 'src'
+import { KeycloakGuard } from 'src/guard'
 
 @Controller()
 class ControllerOne {
   @Get('public')
-  public(): unknown {
+  public(): string {
     return 'Public'
   }
-  @Get()
+  @Get('protected')
   @Protected()
   protected(): string {
     return 'Protected'
   }
-  @Post()
+  @Get('has-scope')
   @HasScope()
   hasScope(): string {
     return 'HasScope'
   }
-  @Put()
+  @Get('has-role')
   @HasRole('admin')
   hasRole(): string {
     return 'hasRole'
+  }
+  @Get('has-roles')
+  @HasRole(['admin', 'super-admin'])
+  hasRoles(): string {
+    return 'hasRoles'
+  }
+  @Get('misused')
+  @UseGuards(KeycloakGuard)
+  misused(): string {
+    return 'Misused'
   }
 }
 

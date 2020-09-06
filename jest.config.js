@@ -18,5 +18,4 @@ module.exports = {
   transform: tsjPreset.transform,
   testEnvironment: 'node',
   collectCoverage: true,
-  forceExit: true,
 }
