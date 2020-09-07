@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  nestjs-keycloak:
+    build:
+      context: .
+      target: dev
+    command: bash -c 'while [[ "$$(curl --connect-timeout 2 -s -o /dev/null -w ''%{http_code}'' keycloak:8080/auth/realms/skore)" != "200" ]]; do echo ..; sleep 5; done; echo keycloak is up; npm t'
+    depends_on:
+      - keycloak
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - nestjs-keycloak-network
+
+  keycloak:
+    image: jboss/keycloak
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_IMPORT=/tmp/realm.json
+    networks:
+      - nestjs-keycloak-network
+    ports:
+      - 8080:8080
+    volumes:
+      - ${PWD}/test/realm.json:/tmp/realm.json
+
+networks:
+  nestjs-keycloak-network:

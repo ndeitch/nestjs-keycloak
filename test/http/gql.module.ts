@@ -1,5 +1,5 @@
 import { Module, UseGuards } from '@nestjs/common'
-import { GraphQLModule, Query, Resolver } from '@nestjs/graphql'
+import { GraphQLModule, Query, Resolver, Args } from '@nestjs/graphql'
 import { HasRole, HasScope, KeycloakModule, Protected } from '../../src'
 import { KeycloakGuard } from '../../src/guard'
 
@@ -16,8 +16,13 @@ class ResolverOne {
   }
   @Query(() => String)
   @HasScope()
-  hasScope(): string {
+  hasScope(@Args('id') id: string): string {
     return 'hasScope'
+  }
+  @Query(() => String)
+  @HasScope()
+  resourceScope(): string {
+    return 'resourceScope'
   }
   @Query(() => String)
   @HasRole('admin')

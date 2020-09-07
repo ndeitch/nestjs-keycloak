@@ -13,10 +13,15 @@ class ControllerOne {
   protected(): string {
     return 'Protected'
   }
-  @Get('hasScope')
+  @Get('hasScope/:id')
   @HasScope()
   hasScope(): string {
     return 'HasScope'
+  }
+  @Get('resourceScope')
+  @HasScope()
+  resourceScope(): string {
+    return 'resourceScope'
   }
   @Get('hasRole')
   @HasRole('admin')
@@ -24,7 +29,7 @@ class ControllerOne {
     return 'hasRole'
   }
   @Get('hasRoles')
-  @HasRole(['admin', 'super-admin'])
+  @HasRole(['not-found', 'admin'])
   hasRoles(): string {
     return 'hasRoles'
   }

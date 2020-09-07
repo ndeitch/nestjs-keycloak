@@ -1,6 +1,5 @@
 import { Test } from '@nestjs/testing'
 import { params, suite, test } from '@testdeck/jest'
-import { KeycloakService } from '../../src/service'
 import { BaseTest } from '../base-test'
 import { GqlModule } from './gql.module'
 import { RestModule } from './rest.module'
@@ -55,15 +54,29 @@ export class HttpTest extends BaseTest {
     expect(gqlResponse.body.errors[0].extensions.code).toBe('FORBIDDEN')
   }
 
-  @params({ path: 'protected' }, '[@Protected()] valid access token return protected resource')
-  @params({ path: 'hasScope' }, '[@HasScope()] valid access token return scoped resource')
-  @params({ path: 'hasRole' }, '[@HasRole()] valid token return protected by role resource')
-  @params({ path: 'hasRoles' }, '[@HasRole()] valid token return protected roles array')
-  async 'Granted access '({ path }) {
+  @params(
+    { path: 'protected', query: 'protected' },
+    '[@Protected()] valid access token return protected resource',
+  )
+  @params(
+    { path: 'hasScope/1', query: 'hasScope(id: "1")' },
+    '[@HasScope()] valid access token return scoped resource',
+  )
+  @params(
+    { path: 'resourceScope', query: 'resourceScope' },
+    '[@HasScope()] valid access token return resourced scope',
+  )
+  @params(
+    { path: 'hasRole', query: 'hasRole' },
+    '[@HasRole()] valid token return protected by role resource',
+  )
+  @params(
+    { path: 'hasRoles', query: 'hasRole' },
+    '[@HasRole()] valid token return protected roles array',
+  )
+  async 'Granted access '({ path, query }) {
     const httpServer = await super.httpServerForModule(
-      Test.createTestingModule({ imports: [RestModule, GqlModule] })
-        .overrideProvider(KeycloakService)
-        .useValue({ validateAccessToken: () => true, checkScope: () => true, hasRole: () => true }),
+      Test.createTestingModule({ imports: [RestModule, GqlModule] }),
     )
 
     const restResponse = await httpServer.get(`/${path}`).auth(super.token(), { type: 'bearer' })
@@ -72,39 +85,45 @@ export class HttpTest extends BaseTest {
     const gqlResponse = await httpServer
       .post('/graphql')
       .auth(super.token(), { type: 'bearer' })
-      .send({ query: `query { ${path} }` })
+      .send({ query: `query { ${query} }` })
 
-    expect(gqlResponse.body.data[path]).toBe(path)
+    expect(gqlResponse.body.data).toBeDefined()
   }
 
-  @params({ path: 'protected' }, '[@Protected()] invalid token for protected return 401')
-  @params({ path: 'hasScope' }, '[@HasScope()] invalid token for scoped resource return 401')
-  @params({ path: 'hasRole' }, '[@HasRole()] invalid token for role resource return 401')
-  @params({ path: 'hasRoles' }, '[@HasRole()] invalid token for roles array resource return 401')
-  async 'Deny access '({ path }) {
+  @params(
+    { path: 'protected', query: 'protected', fake: true },
+    '[@Protected()] invalid token for protected return 401',
+  )
+  @params(
+    { path: 'hasScope/1', query: 'hasScope(id: "1")' },
+    '[@HasScope()] invalid token for scoped resource return 401',
+  )
+  @params(
+    { path: 'resourceScope', query: 'resourceScope' },
+    '[@HasScope()] valid access token return resourced scope',
+  )
+  @params(
+    { path: 'hasRole', query: 'hasRole' },
+    '[@HasRole()] invalid token for role resource return 401',
+  )
+  @params(
+    { path: 'hasRoles', query: 'hasRoles' },
+    '[@HasRole()] invalid token for roles array resource return 401',
+  )
+  async 'Deny access '({ path, query, fake = false }) {
     const httpServer = await super.httpServerForModule(
-      Test.createTestingModule({ imports: [RestModule, GqlModule] })
-        .overrideProvider(KeycloakService)
-        .useValue({
-          validateAccessToken: () => {
-            throw new Error('Invalid access token')
-          },
-          checkScope: () => {
-            throw new Error('Missing required permission')
-          },
-          hasRole: () => {
-            throw new Error('Missing required role')
-          },
-        }),
+      Test.createTestingModule({ imports: [RestModule, GqlModule] }),
     )
 
-    const restResponse = await httpServer.get(`/${path}`).auth(super.token(), { type: 'bearer' })
+    const restResponse = await httpServer
+      .get(`/${path}`)
+      .auth(fake ? super.fakeToken() : super.noAccessToken(), { type: 'bearer' })
     expect(restResponse.status).toBe(401)
 
     const gqlResponse = await httpServer
       .post('/graphql')
-      .auth(super.token(), { type: 'bearer' })
-      .send({ query: `query { ${path} }` })
+      .auth(fake ? super.fakeToken() : super.noAccessToken(), { type: 'bearer' })
+      .send({ query: `query { ${query} }` })
 
     expect(gqlResponse.body.errors[0].extensions.code).toBe('FORBIDDEN')
   }

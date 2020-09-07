@@ -17,19 +17,23 @@ export class KeycloakStrategy extends PassportStrategy(Strategy, 'keycloak') {
       const type = req.protectionType as string
       const realm = this.realmFromToken(token)
 
-      if (type === PROTECTED) {
-        return this.keycloakService.validateAccessToken(realm, token)
-      } else if (type === HAS_SCOPE) {
-        return this.keycloakService.checkScope(realm, req, req.scope, req.resource)
-      } else if (type === HAS_ROLE) {
-        return this.keycloakService.hasRole(realm, token, req.roles)
+      switch (type) {
+        case PROTECTED:
+          await this.keycloakService.validateAccessToken(realm, token)
+          break
+        case HAS_SCOPE:
+          await this.keycloakService.checkScope(realm, req, req.scope, req.resource)
+          break
+        case HAS_ROLE:
+          await this.keycloakService.hasRole(realm, token, req.roles)
+          break
+        default:
+          Logger.warn('No protection type defined denying access', KeycloakStrategy.name)
+          if (req.isRest) return false
+          throw new ForbiddenError('Invalid server configuration')
       }
 
-      Logger.warn('No protection type defined denying access', KeycloakStrategy.name)
-
-      if (req.isRest) return false
-
-      throw new ForbiddenError('Invalid server configuration')
+      return true
     } catch (error) {
       Logger.debug(`Invalid token message=${error.message}`, KeycloakStrategy.name)
 
