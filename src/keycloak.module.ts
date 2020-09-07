@@ -1,11 +1,8 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { KeycloakGuard } from './guard'
-import { KeycloakService } from './service'
-import { KeycloakStrategy } from './strategy'
+import { DecoratorModule } from './decorator'
 
 @Module({
-  imports: [ConfigModule.forRoot()],
-  providers: [KeycloakGuard, KeycloakStrategy, KeycloakService],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), DecoratorModule],
 })
 export class KeycloakModule {}
