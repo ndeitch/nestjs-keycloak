@@ -12,4 +12,10 @@ export abstract class BaseTest {
     const app = await moduleRef.createNestApplication().init()
     return request(app.getHttpServer())
   }
+
+  token(): string {
+    return `123123.${Buffer.from('{"iss":"https://identity.skore.dev/auth/realms/skore"}').toString(
+      'base64',
+    )}`
+  }
 }

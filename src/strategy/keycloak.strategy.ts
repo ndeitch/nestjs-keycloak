@@ -27,7 +27,9 @@ export class KeycloakStrategy extends PassportStrategy(Strategy, 'keycloak') {
 
       Logger.warn('No protection type defined denying access', KeycloakStrategy.name)
 
-      return false
+      if (req.isRest) return false
+
+      throw new ForbiddenError('Invalid server configuration')
     } catch (error) {
       Logger.debug(`Invalid token message=${error.message}`, KeycloakStrategy.name)
 

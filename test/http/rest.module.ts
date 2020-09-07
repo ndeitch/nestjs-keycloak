@@ -13,17 +13,17 @@ class ControllerOne {
   protected(): string {
     return 'Protected'
   }
-  @Get('has-scope')
+  @Get('hasScope')
   @HasScope()
   hasScope(): string {
     return 'HasScope'
   }
-  @Get('has-role')
+  @Get('hasRole')
   @HasRole('admin')
   hasRole(): string {
     return 'hasRole'
   }
-  @Get('has-roles')
+  @Get('hasRoles')
   @HasRole(['admin', 'super-admin'])
   hasRoles(): string {
     return 'hasRoles'
@@ -36,4 +36,4 @@ class ControllerOne {
 }
 
 @Module({ controllers: [ControllerOne], imports: [KeycloakModule] })
-export class OneControllerModule {}
+export class RestModule {}
