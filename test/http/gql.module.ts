@@ -1,7 +1,7 @@
 import { Module, UseGuards } from '@nestjs/common'
 import { GraphQLModule, Query, Resolver } from '@nestjs/graphql'
-import { HasRole, HasScope, KeycloakModule, Protected } from 'src'
-import { KeycloakGuard } from 'src/guard'
+import { HasRole, HasScope, KeycloakModule, Protected } from '../../src'
+import { KeycloakGuard } from '../../src/guard'
 
 @Resolver(() => String)
 class ResolverOne {

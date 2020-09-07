@@ -19,7 +19,8 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "start": "nest start",
-    "start:dev": "nest start --watch"
+    "start:dev": "nest start --watch",
+    "test": "jest"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",

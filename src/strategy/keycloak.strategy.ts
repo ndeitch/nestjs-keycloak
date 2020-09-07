@@ -2,8 +2,8 @@ import { Injectable, Logger } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { ForbiddenError } from 'apollo-server-express'
 import { Strategy } from 'passport-http-bearer'
-import { KeycloakService } from 'src/service'
 import { HAS_ROLE, HAS_SCOPE, PROTECTED } from '../constants'
+import { KeycloakService } from '../service'
 
 @Injectable()
 export class KeycloakStrategy extends PassportStrategy(Strategy, 'keycloak') {

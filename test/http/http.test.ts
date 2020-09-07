@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing'
 import { params, suite, test } from '@testdeck/jest'
-import { KeycloakService } from 'src/service'
-import { BaseTest } from 'test/base-test'
+import { KeycloakService } from '../../src/service'
+import { BaseTest } from '../base-test'
 import { GqlModule } from './gql.module'
 import { RestModule } from './rest.module'
 
