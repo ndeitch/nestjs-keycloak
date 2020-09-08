@@ -15,6 +15,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
+      - name: Setup git config
+        run: |
+          git config user.email natan.luz.deitch@gmail.com
+          git config user.name Natan Deitch
+          git config user.password ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup Node 10
         uses: actions/setup-node@v1
         with:
