@@ -1,12 +1,12 @@
 {
   "name": "nestjs-keycloak",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "NestJS authentication and authorization with keycloak",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ndeitch/nestjs-keycloak.git"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "author": "Natan Deitch",
   "main": "dist/index.js",
   "directories": {
