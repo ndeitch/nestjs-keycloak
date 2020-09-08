@@ -2,6 +2,7 @@
   "name": "@ndeitch/nestjs-keycloak",
   "version": "1.2.1",
   "description": "NestJS authentication and authorization with keycloak",
+  "homepage": "https://github.com/ndeitch/nestjs-keycloak/blob/master/README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ndeitch/nestjs-keycloak.git"
@@ -9,6 +10,7 @@
   "license": "MIT",
   "author": "Natan Deitch",
   "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "directories": {
     "dist": "dist"
   },
@@ -67,7 +69,6 @@
     "typescript": "^3.9.3"
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://npm.pkg.github.com/"
+    "access": "public"
   }
 }
