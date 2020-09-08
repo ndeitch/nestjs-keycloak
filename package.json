@@ -1,5 +1,5 @@
 {
-  "name": "nestjs-keycloak",
+  "name": "@ndeitch/nestjs-keycloak",
   "version": "1.0.1",
   "description": "NestJS authentication and authorization with keycloak",
   "repository": {
@@ -67,7 +67,6 @@
     "typescript": "^3.9.3"
   },
   "publishConfig": {
-    "access": "restricted",
     "registry": "https://npm.pkg.github.com/"
   }
 }
