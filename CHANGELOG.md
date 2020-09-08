@@ -1,3 +1,10 @@
+### 1.2.1 (2020-09-08)
+
+
+### Bug Fixes 🐛
+
+* npm package access ([9f40502](https://github.com/ndeitch/nestjs-keycloak/commit/9f40502c47f26a7f48e72f4803a823a7eb73c188))
+
 ## 1.2.0 (2020-09-08)
 
 
