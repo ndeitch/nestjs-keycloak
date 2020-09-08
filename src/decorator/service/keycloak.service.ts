@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Request } from 'express'
 import * as Keycloak from 'keycloak-connect'
+import { Token } from '../domain'
 
 @Injectable()
 export class KeycloakService {
@@ -16,8 +17,10 @@ export class KeycloakService {
     this.authorizationServerUrl = configService.get('AUTHORIZATION_SERVER_URL')
   }
 
-  async validateAccessToken(realm: string, token: string): Promise<boolean> {
-    const tokenResult = await this.clientForRealm(realm).grantManager.validateAccessToken(token)
+  async validateAccessToken(token: Token): Promise<boolean> {
+    const tokenResult = await this.clientForRealm(token.realm).grantManager.validateAccessToken(
+      token.accessToken,
+    )
 
     if (typeof tokenResult === 'string') return true
 
@@ -25,15 +28,17 @@ export class KeycloakService {
   }
 
   async checkScope(
-    realm: string,
+    token: Token,
     request: Request,
     scope: string,
     resource?: string,
   ): Promise<boolean> {
-    const keycloak = this.clientForRealm(realm)
+    const keycloak = this.clientForRealm(token.realm)
     const permission = `${resource ? resource : this.clientId}:${scope}`
 
-    const enforcerFn = this.clientForRealm(realm).enforcer(permission, { response_mode: 'token' })
+    const enforcerFn = this.clientForRealm(token.realm).enforcer(permission, {
+      response_mode: 'token',
+    })
 
     await new Promise((resolve, reject) => {
       keycloak.accessDenied = () => reject(new Error(`Missing required '${permission}' permission`))
@@ -43,9 +48,9 @@ export class KeycloakService {
     return true
   }
 
-  async hasRole(realm: string, token: string, roles: string[]): Promise<boolean> {
-    const grant = await this.clientForRealm(realm).grantManager.createGrant({
-      access_token: (token as unknown) as Keycloak.Token,
+  async hasRole(token: Token, roles: string[]): Promise<boolean> {
+    const grant = await this.clientForRealm(token.realm).grantManager.createGrant({
+      access_token: (token.accessToken as unknown) as Keycloak.Token,
     })
 
     const hasRole = roles.some((role: string) => grant.access_token.hasRole(role))
