@@ -1,6 +1,6 @@
 {
   "name": "@ndeitch/nestjs-keycloak",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "NestJS authentication and authorization with keycloak",
   "homepage": "https://github.com/ndeitch/nestjs-keycloak/blob/master/README.md",
   "repository": {

@@ -1,3 +1,10 @@
+### 1.2.2 (2020-09-08)
+
+
+### Bug Fixes 🐛
+
+* uses npm registry ([a78f0f1](https://github.com/ndeitch/nestjs-keycloak/commit/a78f0f1b41c7afd97ae3db4dec7811b9725b8940))
+
 ### 1.2.1 (2020-09-08)
 
 
