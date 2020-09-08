@@ -1,3 +1,10 @@
+### 1.2.3 (2020-09-08)
+
+
+### Documentation 📝
+
+* multi tenancy ([22697c0](https://github.com/ndeitch/nestjs-keycloak/commit/22697c062a376fb4d4c308971a359ad38de509f1))
+
 ### 1.2.2 (2020-09-08)
 
 
