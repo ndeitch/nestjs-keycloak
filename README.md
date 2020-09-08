@@ -7,7 +7,7 @@
 Install nestjs-keycloak
 
 ```sh
-  npm install nestjs-keycloak
+  npm install @ndeitch/nestjs-keycloak
 ```
 
 Import `nestjs-keycloak` module to your app

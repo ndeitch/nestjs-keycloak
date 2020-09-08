@@ -8,7 +8,7 @@ module.exports = {
     release: true,
   },
   npm: {
-    publish: false,
+    publish: true,
   },
   plugins: {
     '@release-it/conventional-changelog': {
