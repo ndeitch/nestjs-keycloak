@@ -183,6 +183,10 @@ export class GqlModule {}
 
 With this config, everything should work as expected
 
+### Multi tenancy
+
+This lib get `realm` from jwt token `iss` property you can check [here](https://github.com/ndeitch/nestjs-keycloak/blob/master/src/decorator/strategy/keycloak.strategy.ts#L46) how it's done. If realm not found the request is denied
+
 ### Additional info
 
 - JWT token must be sent as http header in format: `Bearer YOUR_JWT_TOKEN` for both `Rest` and `GraphQL`
