@@ -1,6 +1,6 @@
 import { Controller, Get, Module, UseGuards } from '@nestjs/common'
-import { HasRole, HasScope, KeycloakModule, Protected } from '../../src'
-import { KeycloakGuard } from '../../src/decorator/guard'
+import { HasRole, HasScope, KeycloakModule, Protected } from '../../../src'
+import { KeycloakGuard } from '../../../src/decorator/guard'
 
 @Controller()
 class ControllerOne {

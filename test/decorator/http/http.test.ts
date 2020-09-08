@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing'
 import { params, suite, test } from '@testdeck/jest'
-import { BaseTest } from '../base-test'
+import { BaseTest } from '../../base-test'
 import { GqlModule } from './gql.module'
 import { RestModule } from './rest.module'
 
