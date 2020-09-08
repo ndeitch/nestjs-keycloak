@@ -1,3 +1,10 @@
+## 1.2.0 (2020-09-08)
+
+
+### Features 🚀
+
+* publish package to npm ([1c7ae84](https://github.com/ndeitch/nestjs-keycloak/commit/1c7ae846dd10c492a2a6eb434eda15dfe37b446b))
+
 ## 1.1.0 (2020-09-08)
 
 
