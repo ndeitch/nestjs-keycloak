@@ -5,10 +5,14 @@ import { Strategy } from 'passport-http-bearer'
 import { HAS_ROLE, HAS_SCOPE, PROTECTED } from '../constants'
 import { Token } from '../domain'
 import { KeycloakService } from '../service'
+import { TokenService } from '../service/token.service'
 
 @Injectable()
 export class KeycloakStrategy extends PassportStrategy(Strategy, 'keycloak') {
-  constructor(private readonly keycloakService: KeycloakService) {
+  constructor(
+    private readonly keycloakService: KeycloakService,
+    private readonly tokenService: TokenService,
+  ) {
     super({ passReqToCallback: true })
   }
 
@@ -19,7 +23,7 @@ export class KeycloakStrategy extends PassportStrategy(Strategy, 'keycloak') {
 
       switch (type) {
         case PROTECTED:
-          await this.keycloakService.validateAccessToken(new Token(accessToken))
+          await this.tokenService.verifyToken(accessToken)
           break
         case HAS_SCOPE:
           await this.keycloakService.checkScope(

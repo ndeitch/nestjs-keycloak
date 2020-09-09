@@ -10,7 +10,7 @@ export abstract class BaseTest {
 
   static async before() {
     const response = await axios.post(
-      'http://keycloak:8080/auth/realms/skore/protocol/openid-connect/token',
+      'http://localhost:8080/auth/realms/skore/protocol/openid-connect/token',
       stringify({
         client_id: 'player',
         client_secret: '436db9f9-d49b-4c83-9480-8e38d21570c6',
@@ -22,7 +22,7 @@ export abstract class BaseTest {
     BaseTest.token = response.data.access_token
 
     const noAccessClient = await axios.post(
-      'http://keycloak:8080/auth/realms/skore/protocol/openid-connect/token',
+      'http://localhost:8080/auth/realms/skore/protocol/openid-connect/token',
       stringify({
         client_id: 'no-access-client',
         client_secret: '0f9d7137-0f35-4cdf-8c33-1b331ca349c1',
@@ -53,7 +53,7 @@ export abstract class BaseTest {
   }
 
   fakeToken(): string {
-    return `123123.${Buffer.from('{"iss":"http://keycloak:8080/auth/realms/skore"}').toString(
+    return `123123.${Buffer.from('{"iss":"http://localhost:8080/auth/realms/skore"}').toString(
       'base64',
     )}`
   }

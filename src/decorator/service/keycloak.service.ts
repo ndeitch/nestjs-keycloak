@@ -17,16 +17,6 @@ export class KeycloakService {
     this.authorizationServerUrl = configService.get('AUTHORIZATION_SERVER_URL')
   }
 
-  async validateAccessToken(token: Token): Promise<boolean> {
-    const tokenResult = await this.clientForRealm(token.realm).grantManager.validateAccessToken(
-      token.accessToken,
-    )
-
-    if (typeof tokenResult === 'string') return true
-
-    throw new Error('Invalid access token')
-  }
-
   async checkScope(
     token: Token,
     request: Request,
